@@ -1,16 +1,18 @@
 # syntax=docker/dockerfile:1
-# MV-AFA SzCORE submission
+# TIMA-Net SzCORE submission
 # Based on the official SzCORE template: https://github.com/esl-epfl/szcore/blob/main/config/template.Dockerfile
 
-ARG PYTHON_VERSION=3.11
-FROM python:${PYTHON_VERSION}-slim AS base
+ARG PYTHON_VERSION=3.10
+FROM --platform=linux/amd64 python:${PYTHON_VERSION}-slim AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV MPLBACKEND=Agg
+ENV MNE_DONTWRITE_HOME=true
+ENV MPLCONFIGDIR=/tmp/matplotlib
 
 WORKDIR /app
 
-# Non-privileged user
 ARG UID=10001
 RUN adduser \
     --disabled-password \
@@ -21,22 +23,13 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-# System dependencies (needed by MNE / scipy / ripser)
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends \
-        gcc g++ \
-        libhdf5-dev \
-        git \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
 COPY algo/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip install --no-cache-dir "torch==2.5.1+cpu" --extra-index-url https://download.pytorch.org/whl/cpu && \
+    pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy algorithm package (includes model weights under mvafa_szcore/weights/)
+# Algorithm package with the five seed checkpoints and the post-processing setting
 COPY algo/ /app/
 
-# Switch to non-privileged user
 USER appuser
 
 VOLUME ["/data"]
@@ -46,4 +39,4 @@ ENV INPUT=""
 ENV OUTPUT=""
 
 # SzCORE entrypoint: reads /data/${INPUT}, writes /output/${OUTPUT}
-CMD python3 -m mvafa_szcore "/data/${INPUT}" "/output/${OUTPUT}"
+CMD python3 -m tima_szcore "/data/${INPUT}" "/output/${OUTPUT}"
