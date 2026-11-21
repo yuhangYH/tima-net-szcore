@@ -1,0 +1,75 @@
+{
+  "checkpoints": [
+    {
+      "path": "/dpc/kunf0073/outputs/tima-lodo/szcore_deploy_20261118_70d0658/train/seed0/selected.pt",
+      "seed": 0,
+      "selected_epoch": 39,
+      "selected_state_sha256": "e6bf3add4a0ca92e80fb0b1d09c224ffa6f575b45436833ced9bfb8805bbafc3",
+      "source_threshold": 0.6677940487861633
+    },
+    {
+      "path": "/dpc/kunf0073/outputs/tima-lodo/szcore_deploy_20261118_70d0658/train/seed1/selected.pt",
+      "seed": 1,
+      "selected_epoch": 15,
+      "selected_state_sha256": "23ee63f96af8feec6f2de076e892f688853d1e9833cf7be9acc1e5337d3a601f",
+      "source_threshold": 0.7689865231513977
+    },
+    {
+      "path": "/dpc/kunf0073/outputs/tima-lodo/szcore_deploy_20261118_70d0658/train/seed2/selected.pt",
+      "seed": 2,
+      "selected_epoch": 31,
+      "selected_state_sha256": "86baae3bcdbd929ba5d6450b80f80d1286c7678337b268712a4a5d6456092840",
+      "source_threshold": 0.7717642188072205
+    },
+    {
+      "path": "/dpc/kunf0073/outputs/tima-lodo/szcore_deploy_20261118_70d0658/train/seed3/selected.pt",
+      "seed": 3,
+      "selected_epoch": 24,
+      "selected_state_sha256": "ef874b84b100c3247b728d8e9f5b015add820205461b6eb43243ad491661328b",
+      "source_threshold": 0.7314756512641907
+    },
+    {
+      "path": "/dpc/kunf0073/outputs/tima-lodo/szcore_deploy_20261118_70d0658/train/seed4/selected.pt",
+      "seed": 4,
+      "selected_epoch": 17,
+      "selected_state_sha256": "e759a220ea99f93d4ed82364d7427bcd3e08896f95534105528eac44bced0645",
+      "source_threshold": 0.8665405511856079
+    }
+  ],
+  "commit": "2d59ef92",
+  "gate_min_sec": 3600.0,
+  "panel_mean_fp_per_day": 22.41940899717672,
+  "panel_objective_mean_event_f1": 0.3729398347647776,
+  "panel_scores": {
+    "chb_mit": {
+      "f1": 0.2889285714285714,
+      "fp_per_day": 12.24320109180022,
+      "precision": 0.2338817262592217,
+      "sensitivity": 0.5689285714285715,
+      "subjects": 5
+    },
+    "siena": {
+      "f1": 0.42857142857142855,
+      "fp_per_day": 7.898107046330227,
+      "precision": 0.3888888888888889,
+      "sensitivity": 0.6666666666666666,
+      "subjects": 3
+    },
+    "tusz": {
+      "f1": 0.40131950429433266,
+      "fp_per_day": 47.11691885339972,
+      "precision": 0.5776470588235294,
+      "sensitivity": 0.5593186813186813,
+      "subjects": 17
+    }
+  },
+  "postprocess": {
+    "gate_quantile": 0.995,
+    "merge_gap_sec": 0,
+    "min_duration_sec": 10,
+    "smooth": 9,
+    "threshold": 0.5
+  },
+  "protocol": "ideas_v2_szcore_deploy_v1",
+  "window_sec": 2.0
+}

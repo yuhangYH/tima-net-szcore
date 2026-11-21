@@ -30,8 +30,13 @@ def main(src, dst):
     data = data - data.mean(axis=0, keepdims=True)
     info = mne.create_info(names, raw.info["sfreq"], "eeg")
     out = mne.io.RawArray(data, info, verbose="ERROR")
-    lim = float(np.abs(data).max()) * 1.01
+    lim = float(np.abs(data).max()) * 1.01 * 1e6      # mne writes EEG in uV; physical_range is in uV, not V
     out.export(dst, fmt="edf", physical_range=(-lim, lim), overwrite=True, verbose="ERROR")
+    back = mne.io.read_raw_edf(dst, preload=True, verbose="ERROR").get_data()[:, :data.shape[1]]
+    err = float(np.abs(back - data).max())
+    if err > 2 * lim * 1e-6 / 65535:                   # more than one 16-bit EDF step: the copy is wrong
+        raise SystemExit(f"read-back error {err:.3g} V exceeds one quantisation step")
+    print(f"read-back max abs error {err:.3g} V (16-bit step {2 * lim * 1e-6 / 65535:.3g} V)")
     print(f"{len(names)} channels, {data.shape[1] / raw.info['sfreq']:.1f} s -> {dst}")
 
 
